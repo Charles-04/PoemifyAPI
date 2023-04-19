@@ -1,5 +1,8 @@
 ﻿namespace PoemifyAPI.Extensions
 {
+    using Poemify.Helpers.Implementations;
+    using Poemify.Helpers.Interfaces;
+
     public static class Configurations
     {
         public static void AddConfigurations(this IServiceCollection services)
@@ -14,6 +17,8 @@
             services.Configure<IISOptions>(options =>
             {
             });
+            services.AddSingleton<ILoggerManager, LoggerManager>();
+
         }
     }
 }

@@ -4,10 +4,10 @@ using Poemify.Helpers.Interfaces;
 
 namespace Poemify.Helpers.Implementations
 {
-    public class Logger : ILogManager
+    public class LoggerManager : ILoggerManager
     {
         private static ILogger logger = LogManager.GetCurrentClassLogger();
-        public Logger()
+        public LoggerManager()
         {
 
         }
