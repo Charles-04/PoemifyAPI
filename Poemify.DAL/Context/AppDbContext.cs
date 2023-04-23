@@ -14,5 +14,7 @@ namespace Poemify.DAL.Context
             base.OnModelCreating(modelBuilder);
 
         }
+        DbSet<AppUser> Users { get; set; }
+        DbSet<Poem> Poems { get; set; }
     }
 }

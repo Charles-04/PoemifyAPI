@@ -13,7 +13,7 @@ namespace Poemify.DAL.Entities
         public string Title { get; set; }
         public string Body { get; set; }
         public string Type { get; set; }
-        public  { }
+        public int Likes { get; set; }
 
     }
 }

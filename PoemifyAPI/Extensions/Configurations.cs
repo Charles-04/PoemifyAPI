@@ -1,6 +1,7 @@
 ﻿namespace PoemifyAPI.Extensions
 {
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Poemify.DAL.Context;
     using Poemify.DAL.Entities;
     using Poemify.Helpers.Implementations;
@@ -20,7 +21,14 @@
             services.Configure<IISOptions>(options =>
             {
             });
+
+
+
+
             services.AddSingleton<ILoggerManager, LoggerManager>();
+
+        }
+        public static void AddIdentity(this IServiceCollection services) { 
             var builder = services.AddIdentityCore<AppUser>(o =>
             {
                 o.Password.RequireDigit = true;
@@ -31,8 +39,9 @@
                 o.User.RequireUniqueEmail = true;
                 
             });
+          
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole),
-           builder.Services);
+            builder.Services);
             builder.AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
