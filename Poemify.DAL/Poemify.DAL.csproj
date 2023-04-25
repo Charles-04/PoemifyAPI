@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Poemify.Helpers\Poemify.Helpers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Seed\" />
+  </ItemGroup>
+
 </Project>
