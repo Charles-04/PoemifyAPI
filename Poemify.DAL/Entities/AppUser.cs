@@ -11,5 +11,7 @@ namespace Poemify.DAL.Entities
         public Gender Gender { get; set; }
         public UserType UserType { get; set; } = UserType.Reader;
         public string Image { get; set; }
+        public virtual IEnumerable<Poem> Poem { get; set; }
+        
     }
 }
