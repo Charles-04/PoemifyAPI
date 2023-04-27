@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Poemify.BLL\Poemify.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
