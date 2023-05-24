@@ -261,7 +261,7 @@ namespace Poemify.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Poems");
+                    b.ToTable("Poems", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

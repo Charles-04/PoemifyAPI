@@ -9,6 +9,14 @@ namespace Poemify.DAL.Entities
 {
     public class AppRole : IdentityRole
     {
+        public AppRole(string role) : base(role)
+        {
+
+        }
+        public AppRole()
+        {
+
+        }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
         public bool Active { get; set; } = true;
