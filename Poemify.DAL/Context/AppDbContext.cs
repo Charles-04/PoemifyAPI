@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Poemify.DAL.Entities;
+using Poemify.Models.Entities;
 using System.Reflection.Emit;
 
 namespace Poemify.DAL.Context
