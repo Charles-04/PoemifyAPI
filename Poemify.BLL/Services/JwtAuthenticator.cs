@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Poemify.DAL.Entities;
+using Poemify.Models.Entities;
 using Poemify.Helpers.Interfaces;
 using System;
 using System.Collections.Generic;

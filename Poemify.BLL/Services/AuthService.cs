@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Poemify.BLL.Interfaces;
-using Poemify.DAL.DTOs.Request;
-using Poemify.DAL.DTOs.Response;
-using Poemify.DAL.Entities;
+using Poemify.Models.DTOs.Request;
+using Poemify.Models.DTOs.Response;
+using Poemify.Models.Entities;
 using Poemify.DAL.Interfaces;
 using Poemify.Helpers.Interfaces;
 using System;

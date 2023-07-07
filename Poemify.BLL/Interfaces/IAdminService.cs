@@ -1,4 +1,4 @@
-﻿using Poemify.DAL.Entities;
+﻿using Poemify.Models.Entities;
 
 
 namespace Poemify.BLL.Interfaces

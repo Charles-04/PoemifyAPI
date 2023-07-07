@@ -1,5 +1,5 @@
-﻿using Poemify.DAL.DTOs.Request;
-using Poemify.DAL.DTOs.Response;
+﻿using Poemify.Models.DTOs.Request;
+using Poemify.Models.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;

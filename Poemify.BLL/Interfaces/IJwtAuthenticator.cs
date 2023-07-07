@@ -1,4 +1,4 @@
-﻿using Poemify.DAL.Entities;
+﻿using Poemify.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
