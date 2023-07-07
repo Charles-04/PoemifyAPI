@@ -7,9 +7,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poemify.API", "PoemifyAPI\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poemify.DAL", "Poemify.DAL\Poemify.DAL.csproj", "{D56CD647-ACAB-44AC-BC69-C69D64908452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poemify.BLL", "Poemify.BLL\Poemify.BLL.csproj", "{7B57A0A5-1E5D-4C4D-B965-6D6616D32BA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poemify.BLL", "Poemify.BLL\Poemify.BLL.csproj", "{7B57A0A5-1E5D-4C4D-B965-6D6616D32BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poemify.Helpers", "Poemify.Helpers\Poemify.Helpers.csproj", "{CA7D0F07-2F35-4280-BD5C-E987D18E21D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poemify.Helpers", "Poemify.Helpers\Poemify.Helpers.csproj", "{CA7D0F07-2F35-4280-BD5C-E987D18E21D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poemify.Models", "Poemify.Models\Poemify.Models.csproj", "{A8E8A3DD-B599-4561-A3F9-EB81DF32B28B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{AE670335-4A05-4B9B-9030-A89E7F906A17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{74FDBC9D-8D99-4BEB-92EB-1F9D20DCB896}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{86B81DD7-897A-4FBE-BB5A-455F7ED3D17B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{D369D4BD-415E-47DE-89FF-489FD072C6DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +43,20 @@ Global
 		{CA7D0F07-2F35-4280-BD5C-E987D18E21D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA7D0F07-2F35-4280-BD5C-E987D18E21D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA7D0F07-2F35-4280-BD5C-E987D18E21D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8E8A3DD-B599-4561-A3F9-EB81DF32B28B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8E8A3DD-B599-4561-A3F9-EB81DF32B28B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8E8A3DD-B599-4561-A3F9-EB81DF32B28B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8E8A3DD-B599-4561-A3F9-EB81DF32B28B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A8CE2932-8BE1-4B02-936B-B0124F89C517} = {D369D4BD-415E-47DE-89FF-489FD072C6DE}
+		{D56CD647-ACAB-44AC-BC69-C69D64908452} = {AE670335-4A05-4B9B-9030-A89E7F906A17}
+		{7B57A0A5-1E5D-4C4D-B965-6D6616D32BA3} = {74FDBC9D-8D99-4BEB-92EB-1F9D20DCB896}
+		{CA7D0F07-2F35-4280-BD5C-E987D18E21D8} = {86B81DD7-897A-4FBE-BB5A-455F7ED3D17B}
+		{A8E8A3DD-B599-4561-A3F9-EB81DF32B28B} = {AE670335-4A05-4B9B-9030-A89E7F906A17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7CD8825-0DB7-4BBC-97E6-9D68FAC76267}

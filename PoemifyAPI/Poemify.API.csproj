@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Poemify.BLL\Poemify.BLL.csproj" />
+    <ProjectReference Include="..\Poemify.Helpers\Poemify.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

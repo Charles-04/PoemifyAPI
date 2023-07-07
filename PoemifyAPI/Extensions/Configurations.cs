@@ -1,11 +1,10 @@
 ﻿namespace PoemifyAPI.Extensions
 {
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
-    using Poemify.DAL.Context;
-    using Poemify.DAL.Entities;
+    using Poemify.Models.Entities;
     using Poemify.Helpers.Implementations;
     using Poemify.Helpers.Interfaces;
+    using Poemify.DAL.Context;
 
     public static class Configurations
     {
