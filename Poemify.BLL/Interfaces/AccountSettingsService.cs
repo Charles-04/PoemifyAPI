@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Poemify.BLL.Interfaces
+﻿namespace Poemify.BLL.Interfaces
 {
-     public interface AccountSettingsService
+    public interface AccountSettingsService
     {
+        public Task ChangePassword();
+        public Task UpdateProfilePicture();
+        
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Poemify.DAL.Context;
 
@@ -11,9 +12,10 @@ using Poemify.DAL.Context;
 namespace Poemify.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230711144817_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,30 +322,27 @@ namespace Poemify.DAL.Migrations
 
             modelBuilder.Entity("Poemify.Models.Entities.UserRole", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("ApplicationUserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationRoleId")
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoleId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AppRoleId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("AppRoleId");
-
-                    b.HasIndex("AppUserId");
+                    b.HasKey("ApplicationUserId", "ApplicationRoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId", "RoleId")
-                        .IsUnique();
-
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("UserId", "RoleId"), false);
+                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
@@ -452,25 +451,21 @@ namespace Poemify.DAL.Migrations
 
             modelBuilder.Entity("Poemify.Models.Entities.UserRole", b =>
                 {
-                    b.HasOne("Poemify.Models.Entities.AppRole", null)
+                    b.HasOne("Poemify.Models.Entities.AppRole", "ApplicationRole")
                         .WithMany("UserRoles")
-                        .HasForeignKey("AppRoleId");
-
-                    b.HasOne("Poemify.Models.Entities.AppUser", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("Poemify.Models.Entities.AppRole", null)
-                        .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Poemify.Models.Entities.AppUser", null)
-                        .WithMany()
+                    b.HasOne("Poemify.Models.Entities.AppUser", "ApplicationUser")
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("ApplicationRole");
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Poemify.Models.Entities.UserToken", b =>

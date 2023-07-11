@@ -126,22 +126,13 @@ namespace Poemify.DAL.Context
 
             builder.Entity<UserRole>(b =>
             {
-          
-                b.HasKey(r => new { r.ApplicationUserId, r.ApplicationRoleId });
-                
+                 b.HasKey(ur => new { ur.UserId, ur.RoleId });
 
-                b.HasOne(ur => ur.ApplicationRole)
-               .WithMany(r => r.UserRoles)
-               .HasForeignKey(ur => ur.RoleId)
-               .IsRequired()
-               .OnDelete(DeleteBehavior.Restrict);
-                b.HasOne(ur => ur.ApplicationUser)
-               .WithMany(r => r.UserRoles)
-               .HasForeignKey(ur => ur.UserId)
-               .IsRequired()
-               .OnDelete(DeleteBehavior.Restrict);
+                    b.HasIndex(ur => new { ur.UserId, ur.RoleId })
+                    .IsUnique()
+                    .IsClustered(false);
 
-                
+
                 b.ToTable("AspNetUserRoles");
             });
 

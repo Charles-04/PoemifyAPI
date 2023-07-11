@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Poemify.BLL.Interfaces;
+using Poemify.DAL.Interfaces;
+using Poemify.Helpers.Interfaces;
 using Poemify.Models.DTOs.Request;
 using Poemify.Models.DTOs.Response;
 using Poemify.Models.Entities;
-using Poemify.DAL.Interfaces;
-using Poemify.Helpers.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Poemify.BLL.Services
 {
@@ -21,20 +16,20 @@ namespace Poemify.BLL.Services
         private IRepository<AppUser> _userRepo;
         private IJWTAuthenticator _jWTAuthenticator;
 
-        public AuthService( IUnitOfWork unitOfWork, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IJWTAuthenticator jWTAuthenticator)
+        public AuthService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IJWTAuthenticator jWTAuthenticator)
         {
-            
+
             _unitOfWork = unitOfWork;
-            
+
             _userManager = userManager;
             _roleManager = roleManager;
             _userRepo = _unitOfWork.GetRepository<AppUser>();
-            
+
             _jWTAuthenticator = jWTAuthenticator;
 
         }
 
-        public async Task<AccountResponse> CreateUser(UserRegistrationRequest request)
+        public async Task<Response<UserRegistrationResponse>> SignUpAsync(UserRegistrationRequest request)
         {
 
             AppUser existingUser = await _userManager.FindByEmailAsync(request.Email);
@@ -51,15 +46,14 @@ namespace Poemify.BLL.Services
 
             AppUser user = new()
             {
-
                 Email = request.Email.ToLower(),
                 UserName = request.UserName.Trim().ToLower(),
                 FirstName = request.Firstname.Trim(),
                 LastName = request.LastName.Trim(),
                 PhoneNumber = request.MobileNumber,
-                Gender = request.Gender
+                Gender = request.Gender,
             };
-         
+
             IdentityResult result = await _userManager.CreateAsync(user, request.Password);
 
 
@@ -70,21 +64,31 @@ namespace Poemify.BLL.Services
 
             }
 
-            
+
 
             string? role = "User";
             bool roleExist = await _roleManager.RoleExistsAsync(role);
-            if (roleExist)
-                await _userManager.AddToRoleAsync(user, role);
-            else
-                await _roleManager.CreateAsync(new AppRole(role));
-
-            return new AccountResponse
+            if (!roleExist)
             {
+                await _roleManager.CreateAsync(new AppRole(role));
+                await _userManager.AddToRoleAsync(user, role);
+            }
+            else
+                await _userManager.AddToRoleAsync(user, role);
+
+            JwtToken userToken = await _jWTAuthenticator.GenerateJwtToken(user);
+            var sigUpResponse = new UserRegistrationResponse
+            {
+                Token = userToken,
                 UserId = user.Id,
                 UserName = user.UserName,
+            };
+
+            return new Response<UserRegistrationResponse>
+            {
                 Success = true,
-                Message = "your account has been created"
+                Message = "your account has been created",
+                Result = sigUpResponse
 
             };
 
