@@ -6,6 +6,7 @@ namespace Poemify.BLL.Interfaces
     public interface IAuthService
     {
         Task<Response<UserRegistrationResponse>> SignUpAsync(UserRegistrationRequest request);
+        Task<Response<LoginResponseDto>> SignIn(LoginRequestDto loginRequest);
         
     }
 }

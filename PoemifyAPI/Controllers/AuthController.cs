@@ -21,5 +21,12 @@ namespace Poemify.API.Controllers
             var response = await _authService.SignUpAsync(userRegistrationRequest);
             return Ok(response);
         }
+        [HttpPost("login",Name ="login")]
+        public async Task<ActionResult<Response<LoginResponseDto>>> Login([FromBody]LoginRequestDto loginRequest)
+        {
+            var response = await _authService.SignIn(loginRequest);
+            return Ok(response);
+        }
+
     }
 }
