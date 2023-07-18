@@ -1,4 +1,5 @@
-﻿using Poemify.Models.Entities;
+﻿using Poemify.Models.DTOs.Response;
+using Poemify.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,6 @@ namespace Poemify.Helpers.Interfaces
         {
             Task<JwtToken> GenerateJwtToken(AppUser user, string expires = null, List<Claim> additionalClaims = null);
         }
-    public class JwtToken
-    {
-        public string Token { get; set; }
-        public DateTime Issued { get; set; }
-        public DateTime? Expires { get; set; }
-    }
+  
 }
 

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Poemify.BLL.Interfaces
 {
-    internal interface PoemService
+    public interface IPoemService
     {
+        Task CreatePoem();
+        Task DeletePoem();
+        Task UpdatePoem();
+        Task GetComments();
+        
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Poemify.DAL.Context;
 
@@ -11,9 +12,10 @@ using Poemify.DAL.Context;
 namespace Poemify.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230711151344_fixUserRole")]
+    partial class fixUserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,6 +83,12 @@ namespace Poemify.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -117,6 +125,9 @@ namespace Poemify.DAL.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -190,14 +201,9 @@ namespace Poemify.DAL.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserProfileId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Poems");
                 });
@@ -314,31 +320,6 @@ namespace Poemify.DAL.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Poemify.Models.Entities.UserProfile", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("UserType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserProfiles");
-                });
-
             modelBuilder.Entity("Poemify.Models.Entities.UserRole", b =>
                 {
                     b.Property<string>("UserId")
@@ -426,12 +407,8 @@ namespace Poemify.DAL.Migrations
             modelBuilder.Entity("Poemify.Models.Entities.Poem", b =>
                 {
                     b.HasOne("Poemify.Models.Entities.AppUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
-                    b.HasOne("Poemify.Models.Entities.UserProfile", null)
                         .WithMany("Poem")
-                        .HasForeignKey("UserProfileId");
+                        .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
                 });
@@ -473,17 +450,6 @@ namespace Poemify.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Poemify.Models.Entities.UserProfile", b =>
-                {
-                    b.HasOne("Poemify.Models.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Poemify.Models.Entities.UserRole", b =>
@@ -550,6 +516,8 @@ namespace Poemify.DAL.Migrations
 
                     b.Navigation("Logins");
 
+                    b.Navigation("Poem");
+
                     b.Navigation("Tokens");
 
                     b.Navigation("UserRoles");
@@ -558,11 +526,6 @@ namespace Poemify.DAL.Migrations
             modelBuilder.Entity("Poemify.Models.Entities.Poem", b =>
                 {
                     b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("Poemify.Models.Entities.UserProfile", b =>
-                {
-                    b.Navigation("Poem");
                 });
 #pragma warning restore 612, 618
         }
