@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Poemify.Models.Entities;
-using System.Reflection.Emit;
 
 namespace Poemify.DAL.Context
 {
@@ -17,7 +15,8 @@ namespace Poemify.DAL.Context
         DbSet<Poem> Poems { get; set; }
         DbSet<Tag> Tags { get; set; }
         DbSet<Comment> Comments { get; set; }
-   
+        DbSet<UserProfile> UserProfiles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -26,24 +25,24 @@ namespace Poemify.DAL.Context
             builder.Entity<Tag>().HasIndex(t => t.Name).IsUnique();
             builder.Entity<AppUser>().HasIndex(u => u.UserName).IsUnique();
 
-            
+
 
             builder.Entity<AppUser>(b =>
             {
-          
+
                 b.HasKey(u => u.Id);
 
-                
+
                 b.HasIndex(u => u.NormalizedUserName).HasDatabaseName("UserNameIndex").IsUnique();
                 b.HasIndex(u => u.NormalizedEmail).HasDatabaseName("EmailIndex");
 
-               
+
                 b.ToTable("AspNetUsers");
 
-             
+
                 b.Property(u => u.ConcurrencyStamp).IsConcurrencyToken();
 
-               
+
                 b.Property(u => u.UserName).HasMaxLength(256);
                 b.Property(u => u.NormalizedUserName).HasMaxLength(256);
                 b.Property(u => u.Email).HasMaxLength(256);
@@ -54,7 +53,7 @@ namespace Poemify.DAL.Context
 
                 b.HasMany<UserLogin>().WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
 
-     
+
                 b.HasMany<UserToken>().WithOne().HasForeignKey(ut => ut.UserId).IsRequired();
 
                 b.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
@@ -62,19 +61,19 @@ namespace Poemify.DAL.Context
 
             builder.Entity<UserClaim>(b =>
             {
-              
+
                 b.HasKey(uc => uc.Id);
 
-              
+
                 b.ToTable("AspNetUserClaims");
             });
 
             builder.Entity<UserLogin>(b =>
             {
-              
+
                 b.HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
-               
+
                 b.Property(l => l.LoginProvider).HasMaxLength(128);
                 b.Property(l => l.ProviderKey).HasMaxLength(128);
 
@@ -83,25 +82,25 @@ namespace Poemify.DAL.Context
 
             builder.Entity<UserToken>(b =>
             {
-              
+
                 b.HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
 
                 b.Property(t => t.LoginProvider).HasMaxLength(50);
                 b.Property(t => t.Name).HasMaxLength(50);
 
-                
+
                 b.ToTable("AspNetUserTokens");
             });
 
             builder.Entity<AppRole>(b =>
             {
-         
+
                 b.HasKey(r => r.Id);
 
-              
+
                 b.HasIndex(r => r.NormalizedName).HasDatabaseName("RoleNameIndex").IsUnique();
 
-               
+
                 b.ToTable("AspNetRoles");
 
                 b.Property(r => r.ConcurrencyStamp).IsConcurrencyToken();
@@ -109,28 +108,28 @@ namespace Poemify.DAL.Context
                 b.Property(u => u.Name).HasMaxLength(256);
                 b.Property(u => u.NormalizedName).HasMaxLength(256);
 
-             
+
                 b.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.RoleId).IsRequired();
 
-            
+
                 b.HasMany<RoleClaim>().WithOne().HasForeignKey(rc => rc.RoleId).IsRequired();
             });
 
             builder.Entity<RoleClaim>(b =>
             {
-               
+
                 b.HasKey(rc => rc.Id);
-            
+
                 b.ToTable("AspNetRoleClaims");
             });
 
             builder.Entity<UserRole>(b =>
-            {
-                 b.HasKey(ur => new { ur.UserId, ur.RoleId });
+            {//./
+                b.HasKey(ur => new { ur.UserId, ur.RoleId });
 
-                    b.HasIndex(ur => new { ur.UserId, ur.RoleId })
-                    .IsUnique()
-                    .IsClustered(false);
+                b.HasIndex(ur => new { ur.UserId, ur.RoleId })
+                .IsUnique()
+                .IsClustered(false);
 
 
                 b.ToTable("AspNetUserRoles");
