@@ -11,5 +11,20 @@ namespace Poemify.Models.Enums
         Poet,
         Reader,
         Moderator
+
     }
+    public static class UserypeExtension
+    {
+        public static string GetStringValue(this UserType userType)
+        {
+            return userType switch
+            {
+                UserType.Poet => "poet",
+                UserType.Reader => "reader",
+                UserType.Moderator => "moderator",
+                _ => null
+            };
+        }
+    }
+   
 }

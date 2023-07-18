@@ -1,5 +1,5 @@
 ﻿namespace Poemify.Models.DTOs.Response
 {
-    public record LoginResponseDto(string Token);
+    public record LoginResponseDto(JwtToken Token);
 
 }
