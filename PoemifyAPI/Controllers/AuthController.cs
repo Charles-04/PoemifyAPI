@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Poemify.API.Controllers.Shared;
 using Poemify.BLL.Interfaces;
 using Poemify.Models.DTOs.Request;
 using Poemify.Models.DTOs.Response;
@@ -8,7 +9,7 @@ namespace Poemify.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
         private IAuthService _authService;
         public AuthController(IAuthService authService)

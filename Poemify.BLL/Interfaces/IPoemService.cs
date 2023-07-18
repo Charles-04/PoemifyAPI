@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Poemify.Models.DTOs.Request;
+using Poemify.Models.DTOs.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,7 @@ namespace Poemify.BLL.Interfaces
 {
     public interface IPoemService
     {
-        Task CreatePoem();
+        Task<Response<CreatePoemResponse>> CreatePoem(string Id, CreatePoemRequest poemRequest);
         Task DeletePoem();
         Task UpdatePoem();
         Task GetComments();

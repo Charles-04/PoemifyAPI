@@ -74,6 +74,7 @@
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJWTAuthenticator, JwtAuthenticator>();
             services.AddScoped<IUnitOfWork, UnitOfWork<AppDbContext>>();
+            services.AddSingleton<IPoemService, PoemService>();
             
         }
         public static void AddIdentity(this IServiceCollection services)
