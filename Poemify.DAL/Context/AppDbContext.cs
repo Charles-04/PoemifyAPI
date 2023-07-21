@@ -16,7 +16,7 @@ namespace Poemify.DAL.Context
         DbSet<Tag> Tags { get; set; }
         DbSet<Comment> Comments { get; set; }
         DbSet<UserProfile> UserProfiles { get; set; }
-
+        DbSet<PoemTag> PoemTags { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -124,7 +124,7 @@ namespace Poemify.DAL.Context
             });
 
             builder.Entity<UserRole>(b =>
-            {//./
+            {
                 b.HasKey(ur => new { ur.UserId, ur.RoleId });
 
                 b.HasIndex(ur => new { ur.UserId, ur.RoleId })
@@ -133,6 +133,11 @@ namespace Poemify.DAL.Context
 
 
                 b.ToTable("AspNetUserRoles");
+            });
+            builder.Entity<PoemTag>(b =>
+            {
+                b.HasKey(k => new { k.PoemId, k.TagId });
+               
             });
 
         }

@@ -9,7 +9,7 @@ namespace Poemify.Models.Entities
         public string AuthorId { get; set; }
         public AppUser Author { get; set; }
         public virtual IEnumerable<Comment> Comments { get; set; }
-        public virtual IEnumerable<Tag> Tags { get; set; }
+        public virtual IEnumerable<PoemTag> PoemTags { get; set; }
         
     }
 }

@@ -12,6 +12,6 @@ namespace Poemify.Models.DTOs.Request
       
         public string Title { get; init; }
         public string Body { get; init; }
-        public IEnumerable<Tag> Tags { get; init; }
+        public IEnumerable<string> Tags { get; init; }
     }
 }

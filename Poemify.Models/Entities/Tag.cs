@@ -11,6 +11,6 @@ namespace Poemify.Models.Entities
     {
         
         public string Name { get; set; }
-        public virtual IEnumerable<Poem> Poems { get; set; }
+        public virtual IEnumerable<PoemTag> PoemTags { get; set; }
     }
 }

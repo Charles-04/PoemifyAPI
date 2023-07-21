@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Poemify.DAL.Context;
 
@@ -11,9 +12,10 @@ using Poemify.DAL.Context;
 namespace Poemify.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230721090415_ConfigureRelationships")]
+    partial class ConfigureRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,21 +204,6 @@ namespace Poemify.DAL.Migrations
                     b.HasIndex("UserProfileId");
 
                     b.ToTable("Poems");
-                });
-
-            modelBuilder.Entity("Poemify.Models.Entities.PoemTag", b =>
-                {
-                    b.Property<string>("PoemId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TagId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("PoemId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("PoemTags");
                 });
 
             modelBuilder.Entity("Poemify.Models.Entities.RoleClaim", b =>
@@ -412,6 +399,21 @@ namespace Poemify.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PoemTag", b =>
+                {
+                    b.Property<string>("PoemTagsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PoemsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("PoemTagsId", "PoemsId");
+
+                    b.HasIndex("PoemsId");
+
+                    b.ToTable("PoemTag");
+                });
+
             modelBuilder.Entity("Poemify.Models.Entities.Comment", b =>
                 {
                     b.HasOne("Poemify.Models.Entities.AppUser", "Author")
@@ -442,25 +444,6 @@ namespace Poemify.DAL.Migrations
                         .HasForeignKey("UserProfileId");
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("Poemify.Models.Entities.PoemTag", b =>
-                {
-                    b.HasOne("Poemify.Models.Entities.Poem", "Poem")
-                        .WithMany("PoemTags")
-                        .HasForeignKey("PoemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Poemify.Models.Entities.Tag", "Tag")
-                        .WithMany("PoemTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Poem");
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Poemify.Models.Entities.RoleClaim", b =>
@@ -549,6 +532,21 @@ namespace Poemify.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PoemTag", b =>
+                {
+                    b.HasOne("Poemify.Models.Entities.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("PoemTagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Poemify.Models.Entities.Poem", null)
+                        .WithMany()
+                        .HasForeignKey("PoemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Poemify.Models.Entities.AppRole", b =>
                 {
                     b.Navigation("RoleClaims");
@@ -570,13 +568,6 @@ namespace Poemify.DAL.Migrations
             modelBuilder.Entity("Poemify.Models.Entities.Poem", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("PoemTags");
-                });
-
-            modelBuilder.Entity("Poemify.Models.Entities.Tag", b =>
-                {
-                    b.Navigation("PoemTags");
                 });
 
             modelBuilder.Entity("Poemify.Models.Entities.UserProfile", b =>
