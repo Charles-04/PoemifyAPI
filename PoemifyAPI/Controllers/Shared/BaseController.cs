@@ -8,6 +8,7 @@ namespace Poemify.API.Controllers.Shared
     public class BaseController : ControllerBase
     {
         [ApiExplorerSettings(IgnoreApi = true)]
+        [Produces("application/json")]
         public string GetUserId()
         {
             ClaimsPrincipal user = HttpContext.User;
