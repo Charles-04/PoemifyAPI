@@ -1,6 +1,6 @@
 ﻿namespace Poemify.BLL.Interfaces
 {
-    public interface AccountSettingsService
+    public interface IAccountSettingsService
     {
         public Task ChangePassword();
         public Task UpdateProfilePicture();

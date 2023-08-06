@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poemify.BLL", "Poemify.BLL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poemify.Helpers", "Poemify.Helpers\Poemify.Helpers.csproj", "{CA7D0F07-2F35-4280-BD5C-E987D18E21D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poemify.Models", "Poemify.Models\Poemify.Models.csproj", "{A8E8A3DD-B599-4561-A3F9-EB81DF32B28B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poemify.Models", "Poemify.Models\Poemify.Models.csproj", "{A8E8A3DD-B599-4561-A3F9-EB81DF32B28B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{AE670335-4A05-4B9B-9030-A89E7F906A17}"
 EndProject
@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{74FDBC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{86B81DD7-897A-4FBE-BB5A-455F7ED3D17B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{D369D4BD-415E-47DE-89FF-489FD072C6DE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{D369D4BD-415E-47DE-89FF-489FD072C6DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

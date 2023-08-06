@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using Poemify.API.Extensions;
+using Poemify.BLL.Filters;
 using Poemify.DAL.Context;
 using Poemify.Models.Entities;
 using PoemifyAPI.Extensions;
@@ -20,13 +21,14 @@ namespace PoemifyAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly(), true);
             string connectionString = builder.Configuration.GetConnectionString("DefaultConn");
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
             LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),
             "/nlog.config"));
-            builder.Services.AddIdentity<AppUser, AppRole>()
-               .AddEntityFrameworkStores<AppDbContext>()
-               .AddDefaultTokenProviders();
+            builder.Services.AddAutoMapper(Assembly.Load("Poemify.BLL"));
+            builder.Services.AddIdentity();
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -56,12 +58,15 @@ namespace PoemifyAPI
                      };
                  });
             builder.Services.AddAuthorization();
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(cfg =>
+            {
+                cfg.Filters.Add<ValidateModelAttribute>();
+            });
             builder.Services.AddConfigurations();
             builder.Services.AddServices();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-            builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly(), true); builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwagger();
 
             var app = builder.Build();

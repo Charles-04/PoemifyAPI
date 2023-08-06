@@ -39,9 +39,9 @@
         {
             services.AddSwaggerGen(c =>
             {
-
+                c.EnableAnnotations();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PoemifyAPI", Version = "v1" });
-
+                
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -75,7 +75,9 @@
             services.AddScoped<IJWTAuthenticator, JwtAuthenticator>();
             services.AddScoped<IUnitOfWork, UnitOfWork<AppDbContext>>();
             services.AddScoped<IPoemService, PoemService>();
-            
+            services.AddTransient<IServiceFactory, ServiceFactory>();
+            services.AddScoped<RoleManager<AppRole>>();
+
         }
         public static void AddIdentity(this IServiceCollection services)
         {
@@ -90,7 +92,7 @@
 
             });
 
-            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole),
+            builder = new IdentityBuilder(typeof(AppUser), typeof(AppRole),
             builder.Services);
             builder.AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
