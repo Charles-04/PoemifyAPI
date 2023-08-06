@@ -1,29 +1,27 @@
-﻿using Poemify.BLL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Poemify.BLL.Interfaces;
 using Poemify.DAL.Interfaces;
 using Poemify.Models.DTOs.Request;
 using Poemify.Models.DTOs.Response;
 using Poemify.Models.Entities;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Poemify.Models.Enums;
 
 namespace Poemify.BLL.Services
 {
     public class PoemService : IPoemService
     {
         private IUnitOfWork _unitOfWork;
+        private readonly IServiceFactory _serviceFactory;
         private IRepository<AppUser> _userManager;
         private IRepository<Poem> _poemManager;
         private IRepository<Tag> _tagManager;
         private IRepository<PoemTag> _poemTagManager;
-        public PoemService(IUnitOfWork unitOfWork)
+        public PoemService(IServiceFactory serviceFactory)
         {
-             _unitOfWork = unitOfWork;
-             _poemManager = _unitOfWork.GetRepository<Poem>();
-             _userManager = _unitOfWork.GetRepository<AppUser>();
+            _serviceFactory = serviceFactory;
+            _unitOfWork = _serviceFactory.GetService<IUnitOfWork>();
+            _poemManager = _unitOfWork.GetRepository<Poem>();
+            _userManager = _unitOfWork.GetRepository<AppUser>();
             _tagManager = _unitOfWork.GetRepository<Tag>();
             _poemTagManager = _unitOfWork.GetRepository<PoemTag>();
         }
@@ -32,6 +30,9 @@ namespace Poemify.BLL.Services
             var user = await _userManager.GetSingleByAsync(x => x.Id == userId);
             if (user == null)
                 throw new InvalidOperationException("User Not found");
+            var userProfile = await _unitOfWork.GetRepository<UserProfile>().GetSingleByAsync(u => u.UserId == user.Id);
+            if (userProfile.UserType != UserType.Poet)
+                throw new UnauthorizedAccessException("Poems can only be written by poets");
             var tags = await GetTags(poemRequest.Tags);
             var poem = new Poem
             {
@@ -56,30 +57,35 @@ namespace Poemify.BLL.Services
                 Message = $"Poem posted succesfully"
             };
         }
-        private async Task AssociatePoemAndTags(IEnumerable<Tag> tags, Poem poem)
+        private async Task AssociatePoemAndTags(List<Tag> tags, Poem poem)
         {
+
             if (!tags.Any())
                 return;
+            List<PoemTag> poemTags = new List<PoemTag>();
+
             foreach (var tag in tags)
             {
-                await _poemTagManager.AddAsync(new PoemTag
+                poemTags.Add(new PoemTag
                 {
                     TagId = tag.Id,
                     PoemId = poem.Id
                 });
             }
+            await _poemTagManager.AddRangeAsync(poemTags);
         }
-        private async Task<IEnumerable<Tag>> GetTags(IEnumerable<string> tagList)
+
+        private async Task<List<Tag>> GetTags(IEnumerable<string> tagList)
         {
             List<Tag> tags = new();
             foreach (var tag in tagList)
             {
                 if (string.IsNullOrWhiteSpace(tag))
                 {
-                    
+
                     continue;
                 }
-                 var existingTag = await _tagManager.GetSingleByAsync(x => x.Name.ToLower() == tag.Trim().ToLower());
+                var existingTag = await _tagManager.GetSingleByAsync(x => x.Name.ToLower() == tag.Trim().ToLower());
                 if (existingTag == null)
                 {
                     var newTag = new Tag()
@@ -87,24 +93,65 @@ namespace Poemify.BLL.Services
                         Name = tag,
                         Id = Guid.NewGuid().ToString(),
                     };
-                   var result = await _tagManager.AddAsync(newTag);
+                    var result = await _tagManager.AddAsync(newTag);
+                    if (result == null)
+                        continue;
                     tags.Add(result);
                 }
                 tags.Add(existingTag);
             }
+            tags.RemoveAll(x => x.Id == null);
             return tags;
         }
-        public Task DeletePoem()
+      
+        public async Task<Response<UpdatePoemResponse>> UpdatePoem(UpdatePoemRequest updatePoemRequest)
         {
+            var poem = await _poemManager.GetSingleByAsync(u => u.Id == updatePoemRequest.PoemId);
+            if (poem == null)
+                throw new InvalidOperationException("Poem not found");
+
+            poem.Body = updatePoemRequest.Body;
+            var response = await _poemManager.UpdateAsync(poem);
+            if (response != null)
+                throw new InvalidOperationException("Problem saving changes");
+
+            var result = new UpdatePoemResponse(response.Id);
+            return new Response<UpdatePoemResponse>() {
+                Success = true,
+                Message = "Poem updated successfully",
+                Result = result
+            };
+        }
+
+        public async Task<Response<DeletePoemResponse>> DeletePoem(DeletePoemRequest deletePoemRequest)
+        {
+            var user = await _userManager.GetSingleByAsync(u => u.Id == deletePoemRequest.UserId);
+            var poem = await _poemManager.GetSingleByAsync(u => u.Id == deletePoemRequest.PoemId);
+            if (poem == null || user == null)
+                throw new InvalidOperationException("Poem or user doesn't exist");
+            if (poem.AuthorId != user.Id)
+                throw new InvalidOperationException("You can't delete a poem you didn't write");
+            poem.Deleted = true;
+            var deletedPoem = await _poemManager.UpdateAsync(poem);
+            var result = new DeletePoemResponse(deletedPoem.Id);
+            return new Response<DeletePoemResponse>()
+            {
+                Success = true,
+                Message = "Poem deleted",
+                Result = result
+            };
+        }
+
+        public Task<IEnumerable<GetPoemCommentsResponse>> GetPoemComments(string poemId)
+        {
+            var poem = _poemManager.GetQueryable(x => x.Id == poemId).Include(c => c.Comments).SingleOrDefault();
+            if (poem == null)
+                throw new InvalidOperationException("Poem not found");
+            
             throw new NotImplementedException();
         }
 
-        public Task GetComments()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdatePoem()
+        public Task GetPoemByTags()
         {
             throw new NotImplementedException();
         }

@@ -10,10 +10,11 @@ namespace Poemify.BLL.Interfaces
 {
     public interface IPoemService
     {
-        Task<Response<CreatePoemResponse>> CreatePoem(string Id, CreatePoemRequest poemRequest);
-        Task DeletePoem();
-        Task UpdatePoem();
-        Task GetComments();
+        Task<Response<CreatePoemResponse>> CreatePoem(string userId, CreatePoemRequest poemRequest);
+        Task<Response<DeletePoemResponse>> DeletePoem(DeletePoemRequest deletePoemRequest);
+        Task<Response<UpdatePoemResponse>> UpdatePoem(UpdatePoemRequest updatePoemRequest);
+        Task<IEnumerable<GetPoemCommentsResponse>> GetPoemComments(string poemId);
+        Task GetPoemByTags();
         
     }
 }

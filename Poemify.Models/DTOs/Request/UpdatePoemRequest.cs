@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Poemify.Models.DTOs.Request
 {
-    public record UpdatePoemRequest
-    {
-    }
+    public record UpdatePoemRequest(string PoemId, string Body);
+  
 }

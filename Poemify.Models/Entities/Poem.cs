@@ -8,8 +8,10 @@ namespace Poemify.Models.Entities
         public int Likes { get; set; }
         public string AuthorId { get; set; }
         public AppUser Author { get; set; }
+        public bool Deleted { get; set; } = false;
         public virtual IEnumerable<Comment> Comments { get; set; }
         public virtual IEnumerable<PoemTag> PoemTags { get; set; }
+        
         
     }
 }

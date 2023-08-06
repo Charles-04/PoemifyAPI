@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Poemify.Models.DTOs.Response
+﻿namespace Poemify.Models.DTOs.Response
 {
-    internal class DeletePoemResponse
-    {
-    }
+    public record DeletePoemResponse(string poemId);
+
 }
