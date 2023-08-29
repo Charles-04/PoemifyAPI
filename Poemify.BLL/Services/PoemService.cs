@@ -5,7 +5,7 @@ using Poemify.Models.DTOs.Request;
 using Poemify.Models.DTOs.Response;
 using Poemify.Models.Entities;
 using Poemify.Models.Enums;
-
+using Microsoft.AspNetCore.Mvc;
 namespace Poemify.BLL.Services
 {
     public class PoemService : IPoemService
@@ -142,17 +142,14 @@ namespace Poemify.BLL.Services
             };
         }
 
-        public Task<IEnumerable<GetPoemCommentsResponse>> GetPoemComments(string poemId)
-        {
-            var poem = _poemManager.GetQueryable(x => x.Id == poemId).Include(c => c.Comments).SingleOrDefault();
-            if (poem == null)
-                throw new InvalidOperationException("Poem not found");
-            
-            throw new NotImplementedException();
-        }
+      
 
-        public Task GetPoemByTags()
+        public async Task GetPoemByTags(string tagId)
         {
+            var poemTags = _poemTagManager.GetBy(x => x.TagId == tagId);
+            if (poemTags == null)
+                return ;
+
             throw new NotImplementedException();
         }
     }

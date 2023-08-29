@@ -14,7 +14,7 @@ namespace Poemify.BLL.Interfaces
         Task<Response<DeletePoemResponse>> DeletePoem(DeletePoemRequest deletePoemRequest);
         Task<Response<UpdatePoemResponse>> UpdatePoem(UpdatePoemRequest updatePoemRequest);
         Task<IEnumerable<GetPoemCommentsResponse>> GetPoemComments(string poemId);
-        Task GetPoemByTags();
+        Task<Response<GetPoemByTagResponse>> GetPoemByTags(string tag);
         
     }
 }
