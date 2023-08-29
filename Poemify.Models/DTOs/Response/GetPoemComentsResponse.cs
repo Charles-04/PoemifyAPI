@@ -8,8 +8,13 @@ namespace Poemify.Models.DTOs.Response
 {
    public record GetPoemCommentsResponse
     {
-        public string PoemTitle { get; set; }
-        public string Commenter { get; set; }
-        public string Comment { get; set; }
+      
+        List<CommentResponse> Comments { get; init; }
+    }
+    public record CommentResponse
+    {
+        public string PoemTitle { get; init; }
+        public string Commenter { get; init; }
+        public string Comment { get; init; }
     }
 }

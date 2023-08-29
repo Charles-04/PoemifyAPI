@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Poemify.Models.DTOs.Response
 {
-    internal class GetAllPoemsResponse
+    public record GetAllPoemsResponse
     {
+        List<PoemResponse> Poems { get; init; }
+    }
+    public record PoemResponse
+    {
+        public int Id { get; init; }
+        public string Title { get; init; }
+        public string Body { get; init; }
     }
 }

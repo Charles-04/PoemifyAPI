@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Poemify.Models.DTOs.Response
 {
-    internal class GetPoemByTagResponse
-    {
-    }
+    public record GetPoemByTagResponse(
+        GetAllPoemsResponse Poems
+        );
+    
+    
 }

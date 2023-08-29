@@ -14,4 +14,8 @@ namespace Poemify.Models.DTOs.Request
         public string Body { get; init; }
         public IEnumerable<string> Tags { get; init; }
     }
+    public record UpdatePoemRequest(string PoemId, string Body);
+    public record DeletePoemRequest(string PoemId, string UserId);
+    public record GetAllPoemsRequest():RequestParams;
+    public record GetPoemCommentsRequest(string PoemId) : RequestParams;
 }
